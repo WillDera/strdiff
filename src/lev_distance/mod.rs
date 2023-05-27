@@ -2,39 +2,51 @@ use std::cmp::min;
 use std::fmt::Debug;
 
 #[derive(Debug)]
-struct Strdiff;
+pub struct LevStrdiff;
 
-trait Lv<Args> {
+pub trait Lv<Args> {
     type Output;
     fn entry(&self, args: Args) -> Self::Output;
 }
 
-impl Lv<(&str, &str)> for Strdiff {
+impl Lv<(String, String)> for LevStrdiff {
     type Output = u8;
 
-    fn entry(&self, args: (&str, &str)) -> Self::Output {
-        levdist(args.0.to_string(), args.1.to_string())
+    fn entry(&self, args: (String, String)) -> Self::Output {
+        levdist(args.0, args.1)
     }
 }
 
-impl Lv<(Vec<&str>, Vec<&str>)> for Strdiff {
+impl Lv<(Vec<String>, Vec<String>)> for LevStrdiff {
     type Output = Result<Vec<u8>, String>;
 
-    fn entry(&self, args: (Vec<&str>, Vec<&str>)) -> Self::Output {
+    fn entry(&self, args: (Vec<String>, Vec<String>)) -> Self::Output {
         if args.0.is_empty() || args.1.is_empty() {
             return Err("Incomplete params".to_string());
         };
 
         if args.0.len() == 1 && args.1.len() == 1 {
-            let result = levdist(args.0[0].to_string(), args.1[0].to_string());
+            let result = levdist(args.0[0].clone(), args.1[0].clone());
 
             return Ok(vec![result]);
         } else if (args.0.len() > 1 && args.1.len() > 1) && (args.0.len() == args.1.len()) {
-            todo!()
+            let result = levdist_vec(args.0, args.1);
+
+            return Ok(result);
         } else {
             return Err(String::from("Param length mismatch"));
         };
     }
+}
+
+fn levdist_vec(source: Vec<String>, dest: Vec<String>) -> Vec<u8> {
+    let results: Vec<u8> = source
+        .iter()
+        .zip(dest.iter())
+        .map(|(s, d)| levdist(s.to_string(), d.to_string()))
+        .collect();
+
+    results
 }
 
 fn levdist(source: String, dest: String) -> u8 {
@@ -73,23 +85,12 @@ fn test_levdist() {
 }
 
 #[test]
-fn test_entry() {
-    let source = vec!["hello".to_string(), "world".to_string()];
-    let dest = vec!["foo".to_string()];
-
-    let result = entry(source, dest);
-
-    assert!(result.is_err());
-    assert_eq!(result.unwrap_err(), "Param length mismatch");
-}
-
-#[test]
-fn test_strdiff() {
-    let test = Strdiff;
-    let args = ("hello", "hella");
+fn test_levdist_vec() {
+    let test = LevStrdiff;
+    let args = ("hello".to_string(), "hella".to_string());
     let result = test.entry(args);
 
-    let vargs = (vec!["hello"], vec!["hal"]);
+    let vargs = (vec!["hello".to_string()], vec!["hal".to_string()]);
     let vresult = test.entry(vargs);
 
     assert_eq!(result, 1);

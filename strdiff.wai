@@ -1,2 +1,16 @@
 // compute the levenshtein distance of a given string against another.
-lv: func(a: list<string>, b: list<string>) -> u8
+
+union inputs {
+    string, 
+    list<string>
+}
+
+union outputs {
+    u8,
+    list<u8>
+}
+
+type error = string
+
+lvd: func(a: inputs, b: inputs) -> expected<outputs, error>
+
