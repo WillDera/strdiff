@@ -28,14 +28,14 @@ impl Lv<(Vec<String>, Vec<String>)> for LevStrdiff {
         if args.0.len() == 1 && args.1.len() == 1 {
             let result = levdist(args.0[0].clone(), args.1[0].clone());
 
-            return Ok(vec![result]);
+            Ok(vec![result])
         } else if (args.0.len() > 1 && args.1.len() > 1) && (args.0.len() == args.1.len()) {
             let result = levdist_vec(args.0, args.1);
 
-            return Ok(result);
+            Ok(result)
         } else {
-            return Err(String::from("Param length mismatch"));
-        };
+            Err(String::from("Param length mismatch"))
+        }
     }
 }
 
