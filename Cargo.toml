@@ -11,11 +11,10 @@ description = "Library for computing Levenshtein and Demerau-Levenshtein distanc
 [lib]
 crate-type = ["cdylib", "rlib"]
 
+[dependencies]
+wai-bindgen-rust = "0.2.3"
+
 [package.metadata.wapm]
 namespace = "willdera"
 abi = "none"
 bindings = { wai-version = "0.1.0", exports = "strdiff.wai" }
-
-[dependencies]
-wasmer = "3.0"
-wai-bindgen-rust = "0.2.3"

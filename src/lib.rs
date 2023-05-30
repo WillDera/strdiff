@@ -15,14 +15,14 @@ impl strdiff::Strdiff for Strdiff {
                 let args = (a, b);
                 let result = strdiff.entry(args);
 
-                return Ok(Outputs::U8(result));
+                Ok(Outputs::U8(result))
             }
             (Inputs::StringList(a), Inputs::StringList(b)) => {
                 let strdiff = lev_distance::LevStrdiff;
                 let args = (a, b);
                 let result = strdiff.entry(args).unwrap();
 
-                return Ok(Outputs::U8List(result));
+                Ok(Outputs::U8List(result))
             }
             _ => Err("Error: source and target should have same data type".to_string()),
         }
