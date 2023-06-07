@@ -13,4 +13,4 @@ union outputs {
 type error = string
 
 lvd: func(a: inputs, b: inputs) -> expected<outputs, error>
-
+dlvd: func(a: inputs, b: inputs) -> expected<outputs, error>
