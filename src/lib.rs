@@ -1,6 +1,7 @@
 wai_bindgen_rust::export!("strdiff.wai");
 // use std::any::{Any, TypeId};
 use crate::strdiff::{Error, Inputs, Outputs};
+mod demerau_lev_distance;
 mod lev_distance;
 // use crate::lev_distance::LevStrdiff;
 use lev_distance::Lv;
@@ -8,8 +9,8 @@ use lev_distance::Lv;
 pub struct Strdiff;
 
 impl strdiff::Strdiff for Strdiff {
-    fn lvd(_a: Inputs, _b: Inputs) -> Result<Outputs, Error> {
-        match (_a, _b) {
+    fn lvd(a: Inputs, b: Inputs) -> Result<Outputs, Error> {
+        match (a, b) {
             (Inputs::String(a), Inputs::String(b)) => {
                 let strdiff = lev_distance::LevStrdiff;
                 let args = (a, b);
@@ -26,6 +27,9 @@ impl strdiff::Strdiff for Strdiff {
             }
             _ => Err("Error: source and target should have same data type".to_string()),
         }
+    }
+    fn dlvd(a: Inputs, b: Inputs) -> Result<Outputs, Error> {
+        todo!()
     }
 }
 
