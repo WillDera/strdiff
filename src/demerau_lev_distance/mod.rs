@@ -61,7 +61,7 @@ fn demeraudist(source: String, dest: String) -> u8 {
     for j in -1..=(dest_len as i32) {
         mem.insert((-1, j), (j + 1) as usize);
     }
-    // helper(a_bytes, b_bytes, &mut da, &mut d, source.len(), dest.len()) as u8
+
     helper(
         (source_len - 1) as i32,
         (dest_len - 1) as i32,
