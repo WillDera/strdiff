@@ -1,6 +1,6 @@
 # Strdiff
 
-Strdiff is a library for calculating string differences. It leverages efficient algorithms such as the Levenshtein distance and the Demerau-Levenshtein distance.
+Strdiff is a library for calculating string differences. It leverages efficient algorithms such as the Levenshtein distance and the Damerau-Levenshtein distance.
 
 ## How to use:
 *NOTE:* This requires a language that [supports WebAssembly](https://docs.wasmer.io/)

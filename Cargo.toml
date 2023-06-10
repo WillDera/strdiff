@@ -5,7 +5,7 @@ edition = "2021"
 readme = "README.md"
 repository = "https://github.com/WillDera/strdiff.git"
 license = "MIT"
-description = "Library for computing Levenshtein and Demerau-Levenshtein distances of strings and list of strings"
+description = "Library for computing Levenshtein and Damerau-Levenshtein distances of strings and list of strings"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [lib]
