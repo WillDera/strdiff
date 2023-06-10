@@ -1,9 +1,13 @@
+//! Strdiff is a library for measuring edit distance between two or more sequence of strings using
+//! string metrics such as Damerau-Levenshtein Distance and Levenshtein Distance
+//!
+//! This interface implements endpoints defined in strdiff.wai
+//!
+//!
 wai_bindgen_rust::export!("strdiff.wai");
-// use std::any::{Any, TypeId};
 use crate::strdiff::{Error, Inputs, Outputs};
 mod demerau_lev_distance;
 mod lev_distance;
-// use crate::lev_distance::LevStrdiff;
 use demerau_lev_distance::Dlv;
 use lev_distance::Lv;
 
@@ -26,7 +30,7 @@ impl strdiff::Strdiff for Strdiff {
 
                 Ok(Outputs::U8List(result))
             }
-            _ => Err("Error: source and target should have same data type".to_string()),
+            _ => Err("Error: source and target should be of same data type".to_string()),
         }
     }
     fn dlvd(a: Inputs, b: Inputs) -> Result<Outputs, Error> {
@@ -45,7 +49,7 @@ impl strdiff::Strdiff for Strdiff {
 
                 Ok(Outputs::U8List(result))
             }
-            _ => Err("Something went wrong".to_string()),
+            _ => Err("Error: source and target should be of same data type".to_string()),
         }
     }
 }
