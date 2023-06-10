@@ -6,9 +6,9 @@
 //!
 wai_bindgen_rust::export!("strdiff.wai");
 use crate::strdiff::{Error, Inputs, Outputs};
-mod demerau_lev_distance;
+mod damerau_lev_distance;
 mod lev_distance;
-use demerau_lev_distance::Dlv;
+use damerau_lev_distance::Dlv;
 use lev_distance::Lv;
 
 pub struct Strdiff;
@@ -36,14 +36,14 @@ impl strdiff::Strdiff for Strdiff {
     fn dlvd(a: Inputs, b: Inputs) -> Result<Outputs, Error> {
         match (a, b) {
             (Inputs::String(a), Inputs::String(b)) => {
-                let strdiff = demerau_lev_distance::DemerauStrdiff;
+                let strdiff = damerau_lev_distance::damerauStrdiff;
                 let args = (a, b);
                 let result = strdiff.entry(args);
 
                 Ok(Outputs::U8(result))
             }
             (Inputs::StringList(a), Inputs::StringList(b)) => {
-                let strdiff = demerau_lev_distance::DemerauStrdiff;
+                let strdiff = damerau_lev_distance::damerauStrdiff;
                 let args = (a, b);
                 let result = strdiff.entry(args);
 

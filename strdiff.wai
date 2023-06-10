@@ -1,4 +1,4 @@
-// compute the levenshtein distance of a given string against another.
+// compute the levenshtein and damerau-levenshtein distance of a given string against another.
 
 union inputs {
     string, 

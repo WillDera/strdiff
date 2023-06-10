@@ -11,7 +11,7 @@
 use std::collections::HashMap;
 
 #[derive(Debug)]
-pub struct DemerauStrdiff;
+pub struct damerauStrdiff;
 
 /// Function overloading achieved with traits
 pub trait Dlv<Args> {
@@ -19,37 +19,37 @@ pub trait Dlv<Args> {
     fn entry(&self, args: Args) -> Self::Output;
 }
 
-impl Dlv<(String, String)> for DemerauStrdiff {
+impl Dlv<(String, String)> for damerauStrdiff {
     type Output = u8;
 
     fn entry(&self, args: (String, String)) -> Self::Output {
-        demeraudist(args.0, args.1)
+        dameraudist(args.0, args.1)
     }
 }
 
-impl Dlv<(Vec<String>, Vec<String>)> for DemerauStrdiff {
+impl Dlv<(Vec<String>, Vec<String>)> for damerauStrdiff {
     // type Output = Result<Vec<u8>, String>;
     type Output = Vec<u8>;
 
     fn entry(&self, args: (Vec<String>, Vec<String>)) -> Self::Output {
-        demeraudist_vec(args.0, args.1)
+        dameraudist_vec(args.0, args.1)
     }
 }
 
-/// Calculate string difference between vector of strings by iteratively executing `demeraudist()` against
+/// Calculate string difference between vector of strings by iteratively executing `dameraudist()` against
 /// each item in source and dest with respect to position. eg source[0] & dest[0]  
-fn demeraudist_vec(source: Vec<String>, dest: Vec<String>) -> Vec<u8> {
+fn dameraudist_vec(source: Vec<String>, dest: Vec<String>) -> Vec<u8> {
     let result: Vec<u8> = source
         .iter()
         .zip(dest.iter())
-        .map(|(s, d)| demeraudist(s.to_string(), d.to_string()))
+        .map(|(s, d)| dameraudist(s.to_string(), d.to_string()))
         .collect();
 
     result
 }
 
 /// Calculate string difference between strings
-fn demeraudist(source: String, dest: String) -> u8 {
+fn dameraudist(source: String, dest: String) -> u8 {
     let source_len = source.len();
     let dest_len = dest.len();
     let mut mem: HashMap<(i32, i32), usize> = HashMap::new();
@@ -109,10 +109,10 @@ fn helper(i: i32, j: i32, s1: &str, s2: &str, d: &mut HashMap<(i32, i32), usize>
 }
 
 #[test]
-fn test_demeraudist() {
-    let initial = demeraudist("Hello".to_string(), "geHellio".to_string());
-    let second = demeraudist("Hello".to_string(), "Halla".to_string());
-    let third = demeraudist("Abdul Hasan".to_string(), "Abdil Husain".to_string());
+fn test_dameraudist() {
+    let initial = dameraudist("Hello".to_string(), "geHellio".to_string());
+    let second = dameraudist("Hello".to_string(), "Halla".to_string());
+    let third = dameraudist("Abdul Hasan".to_string(), "Abdil Husain".to_string());
 
     assert_eq!(initial, 3);
     assert_eq!(second, 2);
@@ -121,7 +121,7 @@ fn test_demeraudist() {
 
 #[test]
 fn test_dlv() {
-    let entry_struct = DemerauStrdiff;
+    let entry_struct = damerauStrdiff;
     let values = ("Zedicus Zul".to_string(), "Zedicus zUL".to_string());
     let result_str = entry_struct.entry(values);
 
