@@ -1,9 +1,19 @@
+//! Levenshtein distance of strings or vectors of strings
+//!
+//! Provides `entry` for LevStrdiff struct which accepts source (string | list<string>) and dest
+//! (string | list<string>)
+//!
+//! Algorithm gotten from wikipedia: https://en.wikipedia.org/wiki/Levenshtein_distance
+//!
+//! See test (line 89) for example usage
+//!
 use std::cmp::min;
 use std::fmt::Debug;
 
 #[derive(Debug)]
 pub struct LevStrdiff;
 
+/// Function overloading achieved with traits
 pub trait Lv<Args> {
     type Output;
     fn entry(&self, args: Args) -> Self::Output;
@@ -39,6 +49,8 @@ impl Lv<(Vec<String>, Vec<String>)> for LevStrdiff {
     }
 }
 
+/// Calculate string difference between vector of strings by iteratively executing `levdist()` against
+/// each item in source and dest with respect to position. eg source[0] & dest[0]  
 fn levdist_vec(source: Vec<String>, dest: Vec<String>) -> Vec<u8> {
     let results: Vec<u8> = source
         .iter()
@@ -49,6 +61,7 @@ fn levdist_vec(source: Vec<String>, dest: Vec<String>) -> Vec<u8> {
     results
 }
 
+/// Calculate string difference between strings
 fn levdist(source: String, dest: String) -> u8 {
     if source.is_empty() {
         return dest.len() as u8;

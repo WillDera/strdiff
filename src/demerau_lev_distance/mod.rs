@@ -1,8 +1,19 @@
-use std::collections::{HashMap, HashSet};
+//! Damerau-Levenshtein distance of strings or vector of strings
+//!
+//! Compute the string difference under the condition that a substring is
+//! not edited more than once (Optimal string alignment distance)
+//!
+//! Algorithm gotten from wikipedia:
+//! https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance#Optimal_string_alignment_distance (slightly modified)
+//!
+//! See tests (line 111) for example code
+//!
+use std::collections::HashMap;
 
 #[derive(Debug)]
 pub struct DemerauStrdiff;
 
+/// Function overloading achieved with traits
 pub trait Dlv<Args> {
     type Output;
     fn entry(&self, args: Args) -> Self::Output;
@@ -12,18 +23,32 @@ impl Dlv<(String, String)> for DemerauStrdiff {
     type Output = u8;
 
     fn entry(&self, args: (String, String)) -> Self::Output {
-        todo!()
+        demeraudist(args.0, args.1)
     }
 }
 
 impl Dlv<(Vec<String>, Vec<String>)> for DemerauStrdiff {
-    type Output = Result<Vec<u8>, String>;
+    // type Output = Result<Vec<u8>, String>;
+    type Output = Vec<u8>;
 
     fn entry(&self, args: (Vec<String>, Vec<String>)) -> Self::Output {
-        todo!()
+        demeraudist_vec(args.0, args.1)
     }
 }
 
+/// Calculate string difference between vector of strings by iteratively executing `demeraudist()` against
+/// each item in source and dest with respect to position. eg source[0] & dest[0]  
+fn demeraudist_vec(source: Vec<String>, dest: Vec<String>) -> Vec<u8> {
+    let result: Vec<u8> = source
+        .iter()
+        .zip(dest.iter())
+        .map(|(s, d)| demeraudist(s.to_string(), d.to_string()))
+        .collect();
+
+    result
+}
+
+/// Calculate string difference between strings
 fn demeraudist(source: String, dest: String) -> u8 {
     let source_len = source.len();
     let dest_len = dest.len();
@@ -92,4 +117,20 @@ fn test_demeraudist() {
     assert_eq!(initial, 3);
     assert_eq!(second, 2);
     assert_eq!(third, 3);
+}
+
+#[test]
+fn test_dlv() {
+    let entry_struct = DemerauStrdiff;
+    let values = ("Zedicus Zul".to_string(), "Zedicus zUL".to_string());
+    let result_str = entry_struct.entry(values);
+
+    let values_vec = (
+        vec!["Zedicus".to_string(), "Xander".to_string()],
+        vec!["zeDIcsu".to_string(), "xanred".to_string()],
+    );
+    let result_vec = entry_struct.entry(values_vec);
+
+    assert_eq!(result_str, 3);
+    assert_eq!(result_vec, vec![4, 3]);
 }
