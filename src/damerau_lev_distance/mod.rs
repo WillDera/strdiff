@@ -147,13 +147,6 @@ mod tests {
     }
 
     #[test]
-    fn test_dameraudist_one_insertion() {
-        let source = String::from("hello");
-        let dest = String::from("helo");
-        assert_eq!(dameraudist(source, dest), 1);
-    }
-
-    #[test]
     fn test_dameraudist_one_deletion() {
         let source = String::from("hello");
         let dest = String::from("helo");
@@ -172,5 +165,21 @@ mod tests {
         let source = String::from("kitten");
         let dest = String::from("sitting");
         assert_eq!(dameraudist(source, dest), 3);
+    }
+
+    #[test]
+    fn test_dameraudist_vec_multiple_operations() {
+        let source = vec![
+            "kitten".to_string(),
+            "hello".to_string(),
+            "hello".to_string(),
+        ];
+        let dest = vec![
+            "sitting".to_string(),
+            "help".to_string(),
+            "halo".to_string(),
+        ];
+        let results = vec![3, 2, 2];
+        assert_eq!(dameraudist_vec(source, dest), results);
     }
 }
