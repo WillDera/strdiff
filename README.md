@@ -30,3 +30,4 @@ async function main() {
 }
 ```
  The example above returns a Levenshtein distance of 1, represented as `val: 1` in `{ tag: 0, val: 1 }`
+*NOTE:* The example above showcases Levenshtein distance, same approach can be followed for Damerau-Levenshtein distance by replacing `strdiff.lvd(...)` with `strdiff.dlvd(...)`, same argument data-types would work.

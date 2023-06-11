@@ -11,7 +11,7 @@
 use std::collections::HashMap;
 
 #[derive(Debug)]
-pub struct damerauStrdiff;
+pub struct DamerauStrdiff;
 
 /// Function overloading achieved with traits
 pub trait Dlv<Args> {
@@ -19,7 +19,7 @@ pub trait Dlv<Args> {
     fn entry(&self, args: Args) -> Self::Output;
 }
 
-impl Dlv<(String, String)> for damerauStrdiff {
+impl Dlv<(String, String)> for DamerauStrdiff {
     type Output = u8;
 
     fn entry(&self, args: (String, String)) -> Self::Output {
@@ -27,7 +27,7 @@ impl Dlv<(String, String)> for damerauStrdiff {
     }
 }
 
-impl Dlv<(Vec<String>, Vec<String>)> for damerauStrdiff {
+impl Dlv<(Vec<String>, Vec<String>)> for DamerauStrdiff {
     // type Output = Result<Vec<u8>, String>;
     type Output = Vec<u8>;
 
@@ -108,29 +108,69 @@ fn helper(i: i32, j: i32, s1: &str, s2: &str, d: &mut HashMap<(i32, i32), usize>
     d.get(&(i, j)).unwrap().clone()
 }
 
-#[test]
-fn test_dameraudist() {
-    let initial = dameraudist("Hello".to_string(), "geHellio".to_string());
-    let second = dameraudist("Hello".to_string(), "Halla".to_string());
-    let third = dameraudist("Abdul Hasan".to_string(), "Abdil Husain".to_string());
+#[cfg(test)]
+mod tests {
+    use super::*;
 
-    assert_eq!(initial, 3);
-    assert_eq!(second, 2);
-    assert_eq!(third, 3);
-}
+    #[test]
+    fn test_dameraudist() {
+        let initial = dameraudist("Hello".to_string(), "geHellio".to_string());
+        let second = dameraudist("Hello".to_string(), "Halla".to_string());
+        let third = dameraudist("Abdul Hasan".to_string(), "Abdil Husain".to_string());
 
-#[test]
-fn test_dlv() {
-    let entry_struct = damerauStrdiff;
-    let values = ("Zedicus Zul".to_string(), "Zedicus zUL".to_string());
-    let result_str = entry_struct.entry(values);
+        assert_eq!(initial, 3);
+        assert_eq!(second, 2);
+        assert_eq!(third, 3);
+    }
 
-    let values_vec = (
-        vec!["Zedicus".to_string(), "Xander".to_string()],
-        vec!["zeDIcsu".to_string(), "xanred".to_string()],
-    );
-    let result_vec = entry_struct.entry(values_vec);
+    #[test]
+    fn test_dlv() {
+        let entry_struct = DamerauStrdiff;
+        let values = ("Zedicus Zul".to_string(), "Zedicus zUL".to_string());
+        let result_str = entry_struct.entry(values);
 
-    assert_eq!(result_str, 3);
-    assert_eq!(result_vec, vec![4, 3]);
+        let values_vec = (
+            vec!["Zedicus".to_string(), "Xander".to_string()],
+            vec!["zeDIcsu".to_string(), "xanred".to_string()],
+        );
+        let result_vec = entry_struct.entry(values_vec);
+
+        assert_eq!(result_str, 3);
+        assert_eq!(result_vec, vec![4, 3]);
+    }
+
+    #[test]
+    fn test_dameraudist_same_string() {
+        let source = String::from("hello");
+        let dest = String::from("hello");
+        assert_eq!(dameraudist(source, dest), 0);
+    }
+
+    #[test]
+    fn test_dameraudist_one_insertion() {
+        let source = String::from("hello");
+        let dest = String::from("helo");
+        assert_eq!(dameraudist(source, dest), 1);
+    }
+
+    #[test]
+    fn test_dameraudist_one_deletion() {
+        let source = String::from("hello");
+        let dest = String::from("helo");
+        assert_eq!(dameraudist(dest, source), 1);
+    }
+
+    #[test]
+    fn test_dameraudist_one_substitution() {
+        let source = String::from("hello");
+        let dest = String::from("hallo");
+        assert_eq!(dameraudist(source, dest), 1);
+    }
+
+    #[test]
+    fn test_dameraudist_multiple_operations() {
+        let source = String::from("kitten");
+        let dest = String::from("sitting");
+        assert_eq!(dameraudist(source, dest), 3);
+    }
 }
