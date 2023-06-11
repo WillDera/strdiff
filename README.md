@@ -5,6 +5,8 @@ Strdiff is a library for calculating string differences. It leverages efficient 
 ## How to use:
 *NOTE:* This requires a language that [supports WebAssembly](https://docs.wasmer.io/)
 
+- [Install wasmer](https://docs.wasmer.io/ecosystem/wasmer/getting-started) (Only supports MacOS/Linux for now. Ofcourse, WSL would work.)
+
 ### Yarn/NPM example
 - Install wapm package to yarn project
 `wasmer add --yarn willdera/strdiff`
